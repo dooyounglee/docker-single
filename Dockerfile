@@ -1,15 +1,17 @@
 # Build
-FROM gradle:7.4-jdk17-alpine as builder
-WORKDIR /build
-
-COPY build.gradle settings.gradle /build/
-RUN gradle build -x test --parallel --continue > /dev/null 2>&1 || true
-
-COPY . /build
-RUN gradle build -x test --parallel
+# FROM gradle:jdk17-alpine as builder
+# COPY gradlew .
+# COPY gradle gradle
+# COPY build.gradle .
+# COPY settings.gradle .
+# COPY src src
+# # RUN chmod +x ./gradlew # gradlew 실행권한 부여
+# RUN gradle build
+# # RUN ./gradlew bootJar # gradlew를 사용하여 실행 가능한 jar 파일 생성
+# RUN ls
 
 # Docker
 FROM openjdk:17-alpine
 EXPOSE 8080
-ADD ./build/libs/*.jar app.jar
+ADD ./build/libs/*.jar app1.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]
